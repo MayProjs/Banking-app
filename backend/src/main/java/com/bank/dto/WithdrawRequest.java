@@ -1,0 +1,42 @@
+package com.bank.dto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public class WithdrawRequest {
+
+    @NotNull(message = "Account ID is required")
+    private Long accountId;
+
+    @NotNull(message = "Amount is required")
+    @Positive(message = "Amount must be greater than 0")
+    private Double amount;
+
+    @NotBlank(message = "Channel is required")
+    private String channel;
+
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+}

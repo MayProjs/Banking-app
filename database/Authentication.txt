@@ -1,0 +1,5 @@
+User:  BANK_ADMIN
+Password: bank123
+
+User: SYS/ SYSTEM
+Password: May@123
