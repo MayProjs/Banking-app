@@ -17,9 +17,9 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-# expose port (Render uses 8080 by default)
+COPY src/main/resources/wallet /app/wallet
+
 EXPOSE 8080
 
-# run app
 ENTRYPOINT ["java","-jar","app.jar"]
 
