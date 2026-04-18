@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_BASE from "./api";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
@@ -27,8 +28,8 @@ export default function DepositForm() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/transactions/deposit",
-        form,
+        `${API_BASE}/api/transactions/deposit`,
+        form
       );
 
       toast.success(res.data);

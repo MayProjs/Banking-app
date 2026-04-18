@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/transactions")
-@CrossOrigin("*") // allow React
+//@CrossOrigin("*") // allow React
 public class TransactionController {
 
     private final TransactionService service;

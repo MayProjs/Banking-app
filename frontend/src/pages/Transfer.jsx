@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_BASE from "./api";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Sidebar from "../components/Sidebar"; 
@@ -28,7 +29,7 @@ export default function TransferForm() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/transactions/transfer",
+        `${API_BASE}/api/transactions/transfer`,
         form
       );
 
