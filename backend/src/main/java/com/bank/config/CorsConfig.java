@@ -16,7 +16,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:5173",   // local frontend
-                                "https://your-vercel-app.vercel.app" // future
+                                "https://banking-app-jade-six.vercel.app" // future
                         )
                         .allowedMethods("*")
                         .allowedHeaders("*");
