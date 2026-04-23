@@ -11,25 +11,38 @@ export default function WithdrawForm() {
     channel: "NET_BANKING", // default channel
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
+
     if (!form.accountId || !form.amount) {
       toast.error("Please fill all fields");
+      setLoading(false);
       return;
     }
 
+
     if (isNaN(form.amount) || Number(form.amount) <= 0) {
       toast.error("Enter a valid amount");
+      setLoading(false);
       return;
     }
+     
+    const payload = {
+      accountId: Number(form.accountId),
+      amount: Number(form.amount),
+      channel: form.channel
+    };
 
     try {
       const res = await axios.post(
         `${API_BASE}/api/transactions/withdraw`,
-        form
+        payload
       );
 
       toast.success(res.data);
@@ -39,7 +52,9 @@ export default function WithdrawForm() {
             err.response?.data || 
             "Something went wrong"
       );
-    }
+     } finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -62,7 +77,10 @@ export default function WithdrawForm() {
           onChange={handleChange}
         />
 
-        <button onClick={handleSubmit}>Withdraw</button>
+        <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Processing..." : "Deposit"}
+        </button>
+        
       </div>
     </div>
   );

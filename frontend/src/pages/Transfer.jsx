@@ -12,25 +12,39 @@ export default function TransferForm() {
     channel: "ATM", // default channel
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (!form.toAccount || !form.fromAccount || !form.amount) {
       toast.error("Please fill all fields");
+      setLoading(false);
+
       return;
     }
 
     if (isNaN(form.amount) || Number(form.amount) <= 0) {
       toast.error("Enter a valid amount");
+      setLoading(false);
+
       return;
     }
+
+    const payload = {
+      fromAccount: Number(form.fromAccount),
+      toAccount: Number(form.toAccount),
+      amount: Number(form.amount),
+      channel: form.channel
+    };
 
     try {
       const res = await axios.post(
         `${API_BASE}/api/transactions/transfer`,
-        form
+        payload
       );
 
       toast.success(res.data);
@@ -40,6 +54,8 @@ export default function TransferForm() {
             err.response?.data || 
             "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +85,9 @@ export default function TransferForm() {
           onChange={handleChange}
         />
 
-        <button onClick={handleSubmit}>Transfer</button>
+        <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Processing..." : "Transfer"}
+        </button>
       </div>
     </div>
   );

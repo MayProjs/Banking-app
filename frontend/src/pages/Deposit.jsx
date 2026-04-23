@@ -11,36 +11,45 @@ export default function DepositForm() {
     channel: "WEB", // default channel
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    if (!form.accountId || !form.amount) {
-      toast.error("Please fill all fields");
-      return;
-    }
+  setLoading(true);
 
-    if (isNaN(form.amount) || Number(form.amount) <= 0) {
-      toast.error("Enter a valid amount");
-      return;
-    }
+  if (!form.accountId || !form.amount) {
+    toast.error("Please fill all fields");
+    setLoading(false);
+    return;
+  }
 
-    try {
-      const res = await axios.post(
-        `${API_BASE}/api/transactions/deposit`,
-        form
-      );
-
-      toast.success(res.data);
-    } catch (err) {
-       toast.error(
-            err.response?.data?.message || 
-            err.response?.data || 
-            "Something went wrong"
-      );
-    }
+  const payload = {
+    accountId: Number(form.accountId),
+    amount: Number(form.amount),
+    channel: form.channel
   };
+
+  try {
+    const res = await axios.post(
+      `${API_BASE}/api/transactions/deposit`,
+      payload
+    );
+
+    toast.success(res.data);
+
+  } catch (err) {
+    toast.error(
+      err.response?.data?.message ||
+      err.response?.data ||
+      "Something went wrong"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
@@ -57,7 +66,9 @@ export default function DepositForm() {
 
         <input name="amount" placeholder="Amount" onChange={handleChange} />
 
-        <button onClick={handleSubmit}>Deposit</button>
+        <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Processing..." : "Deposit"}
+        </button>
       </div>
     </div>
   );
