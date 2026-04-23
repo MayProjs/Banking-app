@@ -19,3 +19,21 @@ CREATE TABLE customers (
 ALTER TABLE customers
 ADD gender VARCHAR2(10)
 CHECK (gender IN ('MALE','FEMALE','OTHER'));
+
+//adding the userids and its references in customer table
+ALTER TABLE customers
+ADD user_id NUMBER;
+
+ALTER TABLE customers
+ADD CONSTRAINT fk_customer_user
+FOREIGN KEY (user_id)
+REFERENCES users(user_id);
+
+// make user_id mandatory
+ALTER TABLE customers
+MODIFY user_id NOT NULL;
+commit;
+
+//removimg the columns
+ALTER TABLE customers DROP COLUMN password;
+ALTER TABLE customers DROP COLUMN role;
