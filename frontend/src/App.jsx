@@ -2,9 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProctectedRoute";
-import LogoutButton from "./components/LogoutButton";
+import Login from "./features/auth/Login";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import LogoutButton from "./components/common/LogoutButton";
+import AdminDashboard from "./features/admin/AdminDashboard"
 
 function App() {
   return (
@@ -20,10 +21,7 @@ function App() {
             path="/admin"
             element={
               <ProtectedRoute role="ADMIN">
-                <div>
-                  <h1>Admin Dashboard</h1>
-                  <LogoutButton />
-                </div>
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />

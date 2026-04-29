@@ -1,6 +1,6 @@
 package com.bank.util;
 
-import com.bank.exception.CustomException;
+import com.bank.common.exception.CustomException;
 import java.sql.SQLException;
 
 public class OracleErrorMapper {
